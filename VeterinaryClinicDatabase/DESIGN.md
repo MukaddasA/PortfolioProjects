@@ -2,9 +2,6 @@
 
 By Mukaddas Ahmad
 
-Video overview: (https://vimeo.com/878364575)
-
-
 ## Scope
 
 The database for Veterinary Clinic include the entities to facilitate keeping all essential records of clinical activities. As such, included in the database's scope is:
