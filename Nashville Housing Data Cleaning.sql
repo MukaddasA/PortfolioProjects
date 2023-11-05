@@ -29,6 +29,8 @@ SET SaleDate = CAST(SaleDate AS DATE)
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 ADD SaleDateConverted DATE;
 
+-- Updating the column
+
 UPDATE PortfolioProject.dbo.NashvilleHousing
 SET SaleDateConverted = CAST(SaleDate AS DATE)
 
@@ -50,7 +52,8 @@ JOIN PortfolioProject.dbo.NashvilleHousing AS b
 	AND a.[UniqueID ] <> b.[UniqueID ]
 WHERE a.PropertyAddress IS NULL
 
-
+-- Updating the address
+	
 UPDATE a
 SET PropertyAddress = ISNULL(a.PropertyAddress, b.PropertyAddress)
 FROM PortfolioProject.dbo.NashvilleHousing AS a
@@ -72,16 +75,24 @@ SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) +1, LEN(PropertyAddre
 
 FROM PortfolioProject.dbo.NashvilleHousing
 
+
+-- Adding new column for the data
+	
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 ADD PropertySplitAddress NVARCHAR(255);
+
+-- Updating the column
 
 UPDATE PortfolioProject.dbo.NashvilleHousing
 SET PropertySplitAddress = SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 )
 
 
+-- Adding new column for the data
 
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 ADD PropertySplitCity NVARCHAR(255);
+
+-- Updating the column
 
 UPDATE PortfolioProject.dbo.NashvilleHousing
 SET PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) +1, LEN(PropertyAddress)) 
@@ -113,22 +124,33 @@ PARSENAME(REPLACE(OwnerAddress, ',', '.') ,1)
 FROM PortfolioProject.dbo.NashvilleHousing
 
 
+-- Adding new columns for the data
+	
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 ADD OwnerSplitAddress NVARCHAR(255);
+
+-- Updating the column
 
 UPDATE PortfolioProject.dbo.NashvilleHousing
 SET OwnerSplitAddress = PARSENAME(REPLACE(OwnerAddress, ',', '.') ,3)
 
 
+-- Adding new columns for the data
 
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 ADD OwnerSplitCity NVARCHAR(255);
 
+-- Updating the column
+
 UPDATE PortfolioProject.dbo.NashvilleHousing
 SET OwnerSplitCity = PARSENAME(REPLACE(OwnerAddress, ',', '.') ,2)
 
+-- Adding new columns for the data
+
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 ADD OwnerSplitState NVARCHAR(255);
+
+-- Updating the column
 
 UPDATE PortfolioProject.dbo.NashvilleHousing
 SET OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',', '.') ,1)
@@ -153,7 +175,8 @@ CASE
 	END 
 FROM PortfolioProject.dbo.NashvilleHousing 
 
-
+-- Updating the SoldAsVacant column
+	
 UPDATE PortfolioProject.dbo.NashvilleHousing
 SET SoldAsVacant = CASE
 	WHEN SoldAsVacant = 'Y' THEN 'Yes'
@@ -163,6 +186,7 @@ SET SoldAsVacant = CASE
 
 
 -- Confirmation
+	
 SELECT DISTINCT(SoldAsVacant)
 FROM PortfolioProject.dbo.NashvilleHousing 
 
@@ -190,7 +214,8 @@ ORDER BY PropertyAddress
 
 
 
--- DELETEING
+-- Deleting duplicates
+	
 WITH RowNumCTE AS (
 SELECT *,
 	ROW_NUMBER() OVER(
