@@ -1,3 +1,5 @@
+-- This is a data exploration project from the COVID19 Dataset.
+
 SELECT *
 FROM PortfolioProject..CovidDeaths
 order by 1, 2
